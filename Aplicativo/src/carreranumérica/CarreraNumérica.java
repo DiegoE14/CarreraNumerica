@@ -12,6 +12,7 @@ import java.util.Scanner;
  * @author Diego
  */
 public class CarreraNumérica {
+    public static int d1,d2;
     /**
      * @param args the command line arguments
      */   
@@ -47,234 +48,329 @@ public class CarreraNumérica {
         juego(n, m);
     }
     //Creación metodo del juego
-    public static void juego(int n, int m){
-        int sum=0;
-        Scanner DE = new Scanner (System.in);
+    public static void juego(int n, int m) {
+        int sum = 0;
+        Scanner DE = new Scanner(System.in);
         String r = "";
         System.out.println("****Inicio del juego****");
-        if(m==1){
+        if (m == 1) {
             System.out.println("El primer jugador en llegar a la meta (posición 20) GANA!!!");
-        }else if(m==2){
+        } else if (m == 2) {
             System.out.println("El primer jugador en llegar a la meta (posición 30) GANA!!!");
-        }else{
+        } else {
             System.out.println("El primer jugador en llegar a la meta (posición 50) GANA!!!");
         }
         System.out.println("");
         for (int i = 1; i <= n; i++) {
             System.out.println("Jugador " + i + " en posición de partida.");
         }
-            int sumf1=0;
-            int sumf2=0;
-            int sumf3=0;
-            int sumf4=0;
-            if(n==2){
-                System.out.println("");
-                dosplayer(sumf1, sumf2, r, sum, n, m);
-            }else if(n==3){
-                System.out.println("");
-                tresplayer(sumf1, sumf2, r, sum, n, sumf3, m);
-            }else if(n==4){
-                System.out.println("");
-                cuatroplayer(sumf1, sumf2, r, sum, n, sumf3, sumf4, m);
-            }
-        
+        int sumf1 = 0;
+        int sumf2 = 0;
+        int sumf3 = 0;
+        int sumf4 = 0;
+        if (n == 2) {
+            System.out.println("");
+            dosplayer(sumf1, sumf2, r, sum, n, m);
+        } else if (n == 3) {
+            System.out.println("");
+            tresplayer(sumf1, sumf2, r, sum, n, sumf3, m);
+        } else if (n == 4) {
+            System.out.println("");
+            cuatroplayer(sumf1, sumf2, r, sum, n, sumf3, sumf4, m);
+        }
+
     }
-    public static int lanzardados(int sum){
-        int d1,d2,t;
-        d1=(int) (Math.random() * 6);
-        d1 = d1+1;
-        d2=(int) (Math.random() * 6);
-        d2 =d2+1;
-        System.out.println("Dado 1: "+d1);
-        System.out.println("Dado 2: "+d2);
-        t = d1+d2;
-        System.out.println("Total: "+t);
-        sum = sum+t;
+
+    public static int lanzardados(int sum) {
+        int t;
+        d1 = (int) (Math.random() * 6);
+        d1 = d1 + 1;
+        d2 = (int) (Math.random() * 6);
+        d2 = d2 + 1;
+        System.out.println("Dado 1: " + d1);
+        System.out.println("Dado 2: " + d2);
+        t = d1 + d2;
+        System.out.println("Total: " + t);
+        sum = sum + t;
         return sum;
     }
-    public static void dosplayer(int sumf1, int sumf2, String r, int sum, int n, int m){
-        Scanner DE = new Scanner (System.in);
-        int mm = 0;
-        if(m==1){
-            mm=20;
-        }else if(m==2){
-            mm=30;
-        }else if(m==3){
-            mm=50;
+
+    public static boolean pares() {
+        boolean p = false;
+        if (d1 == d2) {
+            p = true;
         }
-        while(sumf1<mm || sumf2<mm){
-                for (int i = 1; i < n; i++) {
-                    System.out.println("");
+        return p;
+    }
+
+    public static void dosplayer(int sumf1, int sumf2, String r, int sum, int n, int m) {
+        Scanner DE = new Scanner(System.in);
+        int mm = 0;
+        if (m == 1) {
+            mm = 20;
+        } else if (m == 2) {
+            mm = 30;
+        } else if (m == 3) {
+            mm = 50;
+        }
+        while (sumf1 < mm || sumf2 < mm) {
+            int contp1 = 0;
+            int contp2 = 0;
+            for (int i = 1; i < n; i++) {
+                System.out.println("");
                 System.out.println("Turno del jugador " + i);
                 System.out.print("Cuando te sientas con buena suerte lanza los dados (r para lanzar dados): ");
                 r = DE.next();
-                while(!"r".equals(r)){
+                while (!"r".equals(r)) {
                     System.out.print("Cuando te sientas con buena suerte lanza los dados (r para lanzar dados): ");
-                    r = DE.next(); 
+                    r = DE.next();
                 }
                 sumf1 = sumf1 + lanzardados(sum);
+                boolean pp = pares();
+                if (pp == true) {
+                    contp1 = contp1 + 1;
+                    if (contp1 == 3) {
+                        System.out.println("REMARK: GANADOR JUGADOR 1");
+                        System.exit(0);
+                    }
+                }
+
                 System.out.println("Jugador " + i + " en Posición: " + sumf1);
-                }
-                if(sumf1>=mm){
-                    System.out.println("¡¡GANADOR JUGADOR 1!!");
-                    System.exit(0);                   
-                }
-                for (int i = 2; i <= n; i++) {
-                    System.out.println("");
+            }
+            if (sumf1 >= mm) {
+                System.out.println("¡¡GANADOR JUGADOR 1!!");
+                System.exit(0);
+            }
+            for (int i = 2; i <= n; i++) {
+                System.out.println("");
                 System.out.println("Turno del jugador " + i);
                 System.out.print("Cuando te sientas con buena suerte lanza los dados (r para lanzar dados): ");
                 r = DE.next();
-                while(!"r".equals(r)){
+                while (!"r".equals(r)) {
                     System.out.print("Cuando te sientas con buena suerte lanza los dados (r para lanzar dados): ");
-                    r = DE.next(); 
+                    r = DE.next();
                 }
                 sumf2 = sumf2 + lanzardados(sum);
-                System.out.println("Jugador " + i + " en Posición: " + sumf2);
-                if(sumf2>=mm){
-                    System.out.println("¡¡GANADOR JUGADOR 2!!");
-                    System.exit(0);                   
+                boolean pp = pares();
+                if (pp == true) {
+                    contp2 = contp2 + 1;
+                    if (contp2 == 3) {
+                        System.out.println("REMARK: GANADOR JUGADOR 2");
+                        System.exit(0);
+                    }
                 }
+                System.out.println("Jugador " + i + " en Posición: " + sumf2);
+                if (sumf2 >= mm) {
+                    System.out.println("¡¡GANADOR JUGADOR 2!!");
+                    System.exit(0);
                 }
             }
-    }
-    public static void tresplayer(int sumf1, int sumf2, String r, int sum, int n, int sumf3, int m){
-        Scanner DE = new Scanner (System.in);
-        int mm = 0;
-        if(m==1){
-            mm=20;
-        }else if(m==2){
-            mm=30;
-        }else if(m==3){
-            mm=50;
         }
-        while(sumf1<mm || sumf2<mm || sumf3<mm){
-                for (int i = 1; i < (n-1); i++) {
-                    System.out.println("");
+    }
+
+    public static void tresplayer(int sumf1, int sumf2, String r, int sum, int n, int sumf3, int m) {
+        int contp1 = 0;
+        int contp2 = 0;
+        int contp3 = 0;
+
+        Scanner DE = new Scanner(System.in);
+        int mm = 0;
+        if (m == 1) {
+            mm = 20;
+        } else if (m == 2) {
+            mm = 30;
+        } else if (m == 3) {
+            mm = 50;
+        }
+        while (sumf1 < mm || sumf2 < mm || sumf3 < mm) {
+            for (int i = 1; i < (n - 1); i++) {
+                System.out.println("");
                 System.out.println("Turno del jugador " + i);
                 System.out.print("Cuando te sientas con buena suerte lanza los dados (r para lanzar dados): ");
                 r = DE.next();
-                while(!"r".equals(r)){
+                while (!"r".equals(r)) {
                     System.out.print("Cuando te sientas con buena suerte lanza los dados (r para lanzar dados): ");
-                    r = DE.next(); 
+                    r = DE.next();
                 }
                 sumf1 = sumf1 + lanzardados(sum);
+                boolean pp = pares();
+                if (pp == true) {
+                    contp1 = contp1 + 1;
+                    if (contp1 == 3) {
+                        System.out.println("REMARK: GANADOR JUGADOR 1");
+                        System.exit(0);
+                    }
+                }
                 System.out.println("Jugador " + i + " en Posición: " + sumf1);
-                }
-                if(sumf1>=mm){
-                    System.out.println("¡¡GANADOR JUGADOR 1!!");
-                    System.exit(0);                   
-                }
-                for (int i = 2; i < n; i++) {
-                    System.out.println("");
+            }
+            if (sumf1 >= mm) {
+                System.out.println("¡¡GANADOR JUGADOR 1!!");
+                System.exit(0);
+            }
+            for (int i = 2; i < n; i++) {
+                System.out.println("");
                 System.out.println("Turno del jugador " + i);
                 System.out.print("Cuando te sientas con buena suerte lanza los dados (r para lanzar dados): ");
                 r = DE.next();
-                while(!"r".equals(r)){
+                while (!"r".equals(r)) {
                     System.out.print("Cuando te sientas con buena suerte lanza los dados (r para lanzar dados): ");
-                    r = DE.next(); 
+                    r = DE.next();
                 }
                 sumf2 = sumf2 + lanzardados(sum);
+                boolean pp = pares();
+                if (pp == true) {
+                    contp2 = contp2 + 1;
+                    if (contp2 == 3) {
+                        System.out.println("REMARK: GANADOR JUGADOR 2");
+                        System.exit(0);
+                    }
+                }
                 System.out.println("Jugador " + i + " en Posición: " + sumf2);
-                if(sumf2>=mm){
+                if (sumf2 >= mm) {
                     System.out.println("¡¡GANADOR JUGADOR 2!!");
-                    System.exit(0);                   
-                }
-                }
-                for (int i = 3; i <= n; i++) {
-                    System.out.println("");
-                System.out.println("Turno del jugador " + i);
-                System.out.print("Cuando te sientas con buena suerte lanza los dados (r para lanzar dados): ");
-                r = DE.next();
-                while(!"r".equals(r)){
-                    System.out.print("Cuando te sientas con buena suerte lanza los dados (r para lanzar dados): ");
-                    r = DE.next(); 
-                }
-                sumf3 = sumf3 + lanzardados(sum);
-                System.out.println("Jugador " + i + " en Posición: " + sumf3);
-                }
-                if(sumf3>=mm){
-                    System.out.println("¡¡GANADOR JUGADOR 3!!");
-                    System.exit(0);                   
+                    System.exit(0);
                 }
             }
-        
-    }
-      public static void cuatroplayer(int sumf1, int sumf2, String r, int sum, int n, int sumf3, int sumf4, int m){
-        Scanner DE = new Scanner (System.in);
-        int mm = 0;
-        if(m==1){
-            mm=20;
-        }else if(m==2){
-            mm=30;
-        }else if(m==3){
-            mm=50;
-        }
-        while(sumf1<mm || sumf2<mm || sumf3<mm || sumf4<mm){
-                for (int i = 1; i <= (n-3); i++) {
-                    System.out.println("");
+            for (int i = 3; i <= n; i++) {
+                System.out.println("");
                 System.out.println("Turno del jugador " + i);
                 System.out.print("Cuando te sientas con buena suerte lanza los dados (r para lanzar dados): ");
                 r = DE.next();
-                while(!"r".equals(r)){
+                while (!"r".equals(r)) {
                     System.out.print("Cuando te sientas con buena suerte lanza los dados (r para lanzar dados): ");
-                    r = DE.next(); 
-                }
-                sumf1 = sumf1 + lanzardados(sum);
-                System.out.println("Jugador " + i + " en Posición: " + sumf1);
-                }
-                if(sumf1>=mm){
-                    System.out.println("¡¡GANADOR JUGADOR 1!!");
-                    System.exit(0);                   
-                }
-                for (int i = 2; i < (n-1); i++) {
-                    System.out.println("");
-                System.out.println("Turno del jugador " + i);
-                System.out.print("Cuando te sientas con buena suerte lanza los dados (r para lanzar dados): ");
-                r = DE.next();
-                while(!"r".equals(r)){
-                    System.out.print("Cuando te sientas con buena suerte lanza los dados (r para lanzar dados): ");
-                    r = DE.next(); 
-                }
-                sumf2 = sumf2 + lanzardados(sum);
-                System.out.println("Jugador " + i + " en Posición: " + sumf2);
-                if(sumf2>=mm){
-                    System.out.println("¡¡GANADOR JUGADOR 2!!");
-                    System.exit(0);                   
-                }
-                }
-                for (int i = 3; i < n; i++) {
-                    System.out.println("");
-                System.out.println("Turno del jugador " + i);
-                System.out.print("Cuando te sientas con buena suerte lanza los dados (r para lanzar dados): ");
-                r = DE.next();
-                while(!"r".equals(r)){
-                    System.out.print("Cuando te sientas con buena suerte lanza los dados (r para lanzar dados): ");
-                    r = DE.next(); 
+                    r = DE.next();
                 }
                 sumf3 = sumf3 + lanzardados(sum);
+                boolean pp = pares();
+                if (pp == true) {
+                    contp3 = contp3 + 1;
+                    if (contp3 == 3) {
+                        System.out.println("REMARK: GANADOR JUGADOR 3");
+                        System.exit(0);
+                    }
+                }
                 System.out.println("Jugador " + i + " en Posición: " + sumf3);
-                }
-                if(sumf3>=mm){
-                    System.out.println("¡¡GANADOR JUGADOR 3!!");
-                    System.exit(0);                   
-                }
-                for (int i = 4; i <= n; i++) {
-                    System.out.println("");
+            }
+            if (sumf3 >= mm) {
+                System.out.println("¡¡GANADOR JUGADOR 3!!");
+                System.exit(0);
+            }
+        }
+
+    }
+
+    public static void cuatroplayer(int sumf1, int sumf2, String r, int sum, int n, int sumf3, int sumf4, int m) {
+        int contp1 = 0;
+        int contp2 = 0;
+        int contp3 = 0;
+        int contp4 = 0;
+        Scanner DE = new Scanner(System.in);
+        int mm = 0;
+        if (m == 1) {
+            mm = 20;
+        } else if (m == 2) {
+            mm = 30;
+        } else if (m == 3) {
+            mm = 50;
+        }
+        while (sumf1 < mm || sumf2 < mm || sumf3 < mm || sumf4 < mm) {
+            for (int i = 1; i <= (n - 3); i++) {
+                System.out.println("");
                 System.out.println("Turno del jugador " + i);
                 System.out.print("Cuando te sientas con buena suerte lanza los dados (r para lanzar dados): ");
                 r = DE.next();
-                while(!"r".equals(r)){
+                while (!"r".equals(r)) {
                     System.out.print("Cuando te sientas con buena suerte lanza los dados (r para lanzar dados): ");
-                    r = DE.next(); 
+                    r = DE.next();
+                }
+                sumf1 = sumf1 + lanzardados(sum);
+                boolean pp = pares();
+                if (pp == true) {
+                    contp1 = contp1 + 1;
+                    if (contp1 == 3) {
+                        System.out.println("REMARK: GANADOR JUGADOR 1");
+                        System.exit(0);
+                    }
+                }
+                System.out.println("Jugador " + i + " en Posición: " + sumf1);
+            }
+            if (sumf1 >= mm) {
+                System.out.println("¡¡GANADOR JUGADOR 1!!");
+                System.exit(0);
+            }
+            for (int i = 2; i < (n - 1); i++) {
+                System.out.println("");
+                System.out.println("Turno del jugador " + i);
+                System.out.print("Cuando te sientas con buena suerte lanza los dados (r para lanzar dados): ");
+                r = DE.next();
+                while (!"r".equals(r)) {
+                    System.out.print("Cuando te sientas con buena suerte lanza los dados (r para lanzar dados): ");
+                    r = DE.next();
+                }
+                sumf2 = sumf2 + lanzardados(sum);
+                boolean pp = pares();
+                if (pp == true) {
+                    contp2 = contp2 + 1;
+                    if (contp2 == 3) {
+                        System.out.println("REMARK: GANADOR JUGADOR 2");
+                        System.exit(0);
+                    }
+                }
+                System.out.println("Jugador " + i + " en Posición: " + sumf2);
+                if (sumf2 >= mm) {
+                    System.out.println("¡¡GANADOR JUGADOR 2!!");
+                    System.exit(0);
+                }
+            }
+            for (int i = 3; i < n; i++) {
+                System.out.println("");
+                System.out.println("Turno del jugador " + i);
+                System.out.print("Cuando te sientas con buena suerte lanza los dados (r para lanzar dados): ");
+                r = DE.next();
+                while (!"r".equals(r)) {
+                    System.out.print("Cuando te sientas con buena suerte lanza los dados (r para lanzar dados): ");
+                    r = DE.next();
+                }
+                sumf3 = sumf3 + lanzardados(sum);
+                boolean pp = pares();
+                if (pp == true) {
+                    contp3 = contp3 + 1;
+                    if (contp3 == 3) {
+                        System.out.println("REMARK: GANADOR JUGADOR 3");
+                        System.exit(0);
+                    }
+                }
+                System.out.println("Jugador " + i + " en Posición: " + sumf3);
+            }
+            if (sumf3 >= mm) {
+                System.out.println("¡¡GANADOR JUGADOR 3!!");
+                System.exit(0);
+            }
+            for (int i = 4; i <= n; i++) {
+                System.out.println("");
+                System.out.println("Turno del jugador " + i);
+                System.out.print("Cuando te sientas con buena suerte lanza los dados (r para lanzar dados): ");
+                r = DE.next();
+                while (!"r".equals(r)) {
+                    System.out.print("Cuando te sientas con buena suerte lanza los dados (r para lanzar dados): ");
+                    r = DE.next();
                 }
                 sumf4 = sumf4 + lanzardados(sum);
+                boolean pp = pares();
+                if (pp == true) {
+                    contp4 = contp4 + 1;
+                    if (contp4 == 3) {
+                        System.out.println("REMARK: GANADOR JUGADOR 4");
+                        System.exit(0);
+                    }
+                }
                 System.out.println("Jugador " + i + " en Posición: " + sumf4);
-                }
-                if(sumf4>=mm){
-                    System.out.println("¡¡GANADOR JUGADOR 4!!");
-                    System.exit(0);                   
-                }
             }
-        
+            if (sumf4 >= mm) {
+                System.out.println("¡¡GANADOR JUGADOR 4!!");
+                System.exit(0);
+            }
+        }
+
     }
 }
